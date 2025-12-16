@@ -1,5 +1,10 @@
 pipeline {
     agent any
+
+    // Utilise l'installation Maven déclarée dans Manage Jenkins -> Tools (nom: maven)
+    tools {
+        maven 'maven'
+    }
     
     environment {
         DOCKER_IMAGE = 'lachgar/pos'
@@ -22,9 +27,10 @@ pipeline {
             steps {
                 script {
                     echo 'Compilation et tests avec Maven...'
+                    // Maven est installé directement dans le conteneur Jenkins
+                    sh 'mvn -version'
                     // Si le projet est dans un sous-dossier, utiliser dir('POV-JAVA')
                     sh 'mvn clean install'
-                    // Pour Windows, utiliser: bat 'mvn clean install'
                 }
             }
             post {
